@@ -24,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(30)
         },
         status: DataTypes.STRING,
+        last_login_at: DataTypes.DATE,
+        last_ip_address: DataTypes.STRING,
     }, {
         timestamps: true,
         paranoid: true,
