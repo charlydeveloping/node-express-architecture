@@ -3,9 +3,10 @@ const express = require('express');
 class Server {
   constructor() {
     this.app = express();
-    this.port = process.env.port
+    this.port = process.env.PORT
     this.paths = {
-      auth: '/api/v1/auth'
+      auth: '/api/v1/auth',
+      users: '/api/v1/users'
     }
     this.routes()
 
@@ -13,6 +14,7 @@ class Server {
 
   routes() {
     this.app.use(this.paths.auth, require('./routes/auth.routes'))
+    this.app.use(this.paths.users, require('./routes/users.routes'))
   }
 
   listen() {
