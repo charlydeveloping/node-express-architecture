@@ -6,7 +6,13 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
-            type: DataTypes.INTEGER
+            type: DataTypes.INTEGER,
+            comment: 'Identifier of the table'
+        },
+        uuid: {
+            allowNull: false,
+            type: DataTypes.UUID,
+            defaultValue: sequelize.UUIDV4
         },
         name: {
           allowNull: false,
@@ -26,13 +32,17 @@ module.exports = (sequelize, DataTypes) => {
         status: DataTypes.STRING,
         last_login_at: DataTypes.DATE,
         last_ip_address: DataTypes.STRING,
+        is_active: {
+            allowNull: false,
+            type: DataTypes.BOOLEAN,
+            defaultValue: true
+        }
     }, {
         timestamps: true,
         paranoid: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
         deletedAt: 'deleted_at',
-        freezeTableName: true,
         tableName: 'users',
         classMethods: {},
         defaultScope: {
