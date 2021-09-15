@@ -14,53 +14,60 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.UUID,
             defaultValue: sequelize.UUIDV4
         },
-        name: {
+        first_name: {
           allowNull: false,
-          unique: true,
-          type: DataTypes.STRING,
+          type: DataTypes.STRING(30),
         },
+        last_name: {
+            allowNull: false,
+            type: DataTypes.STRING(30),
+          },
         email: {
             allowNull: false,
             unique: true,
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(50),
         },
-        password: DataTypes.STRING,
         phone: {
             allowNull: false,
-            type: DataTypes.STRING(30)
+            type: DataTypes.STRING(15)
         },
-        status: DataTypes.STRING,
-        last_login_at: DataTypes.DATE,
-        last_ip_address: DataTypes.STRING,
-        is_active: {
+        password: { 
             allowNull: false,
-            type: DataTypes.BOOLEAN,
-            defaultValue: true
-        }
+            type: DataTypes.STRING 
+        },
+        status: { 
+            type: DataTypes.STRING(1),
+            validate: {
+                isIn: [['a', 'i']]
+            }
+        },
+        last_login_at: {
+            type: DataTypes.DATE,
+        },
+        last_ip_address: {
+            type: DataTypes.STRING,
+            validate: {
+                isIP: true
+            }
+        },
     }, {
         timestamps: true,
-        paranoid: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
-        deletedAt: 'deleted_at',
         tableName: 'users',
-        classMethods: {},
         defaultScope: {
             attributes: {
                 exclude: ['password']
             }
         },
-        scopes: {
-            withPassword: {
-                attributes: {}
-            }
-        }
     });
+
     user.beforeSave((user, options) => {
         if (user.changed('password')) {
             user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
         }
     });
+
     user.associate = function (models) {
         
     };

@@ -11,10 +11,8 @@ const User = require('../models').user;
  * @param {Response} res - Response of the api.
  */
 const index = async (req, res) => {
-    const users = await User.findAll({
-    })
+    const users = await User.findAll({})
     return res.status(200).json(users)
-   
 };
 /**
  * Obtiene el un usuario por id
