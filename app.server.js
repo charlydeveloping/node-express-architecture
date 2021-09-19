@@ -13,8 +13,8 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.paths.auth, require('./routes/auth.routes'))
-    this.app.use(this.paths.users, require('./routes/users.routes'))
+    this.app.use(this.paths.auth, require('./api/routes/auth.routes'))
+    this.app.use(this.paths.users, require('./api/routes/users.routes'))
   }
 
   listen() {

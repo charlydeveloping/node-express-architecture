@@ -1,4 +1,4 @@
-const AuthService = require("../services/auth.service")
+const AuthService = require("../../services/auth.services")
 
 const signIn = (req, res) => {
   const { email, password } = req.body

@@ -1,5 +1,6 @@
 'use strict';
-const User = require('../models').user;
+const User = require('../../models').user;
+const UserService = require('../../services/user.services')
 
 /**
  * Obtiene el listado de usuarios.
@@ -11,7 +12,8 @@ const User = require('../models').user;
  * @param {Response} res - Response of the api.
  */
 const index = async (req, res) => {
-    const users = await User.findAll({})
+    const service = new UserService()
+    const users = service.index()
     return res.status(200).json(users)
 };
 /**
@@ -44,10 +46,10 @@ const show = async (req, res) => {
  * @param {Response} res - Response of the api.
  */
 const store = async (req, res) => {
-    const { name, email, phone, password, status } = req.body; 
+    const { first_name, last_name, email, phone, password, status } = req.body; 
     const user = await User.create({
-        
-        name,
+        first_name,
+        last_name,
         email,
         phone,
         password,
