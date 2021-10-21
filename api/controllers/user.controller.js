@@ -12,8 +12,7 @@ const UserService = require('../../services/user.services')
  * @param {Response} res - Response of the api.
  */
 const index = async (req, res) => {
-    const service = new UserService()
-    const users = service.index()
+    const users = UserService.getAllUsers()
     return res.status(200).json(users)
 };
 /**
