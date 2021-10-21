@@ -53,6 +53,9 @@ module.exports = (sequelize, DataTypes) => {
                 isIP: true
             }
         },
+        created_by: DataTypes.INTEGER,
+        updated_by: DataTypes.INTEGER,
+        deleted_by: DataTypes.INTEGER,
     }, {
         timestamps: true,
         createdAt: 'created_at',
