@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         uuid: {
             allowNull: false,
             type: DataTypes.UUID,
-            defaultValue: sequelize.UUIDV4
+            defaultValue: DataTypes.UUIDV4
         },
         first_name: {
           allowNull: false,
@@ -55,7 +55,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         created_by: DataTypes.INTEGER,
         updated_by: DataTypes.INTEGER,
-        deleted_by: DataTypes.INTEGER,
     }, {
         timestamps: true,
         createdAt: 'created_at',

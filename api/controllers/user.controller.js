@@ -1,7 +1,7 @@
 "use strict"
 const User = require("../../models").user
 const UserService = require("../../services/user.services")
-
+const asyncHandler = require('../middlewares/async')
 /**
  * @description gets the list of users
  * @route GET /api/v1/users/getallusers
@@ -10,10 +10,14 @@ const UserService = require("../../services/user.services")
  * @param {Request} req - Request of the api.
  * @param {Response} res - Response of the api.
  */
-const getAllUsers = async (req, res) => {
-  const users = UserService.getAllUsers()
-  return res.status(200).json(users)
-}
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await UserService.getAllUsers()
+  return res.status(200).json({
+    success: true,
+    message: "Los usuarios han sido obtenidos exitosamente.",
+    data: users
+  })
+})
 /**
  * @description gets one user by its id
  * @route GET /api/v1/users/:id/getoneuser
@@ -22,20 +26,24 @@ const getAllUsers = async (req, res) => {
  * @param {Request} req - Request of the api.
  * @param {Response} res - Response of the api.
  */
-const getOneUser = async (req, res) => {
+const getOneUser = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
-  const user = UserService.getOneUser(id);
+  const user = await UserService.getOneUser(id);
 
   if (!user)
     return res.status(404).json({
       success: true,
       message: "User not found",
       data: plans,
-    });
+    })
 
-  return res.status(200).send(user);
-};
+  return res.status(200).send({
+    success: true,
+    message: "Los usuarios han sido obtenidos exitosamente.",
+    data: user
+  });
+})
 /**
  * @description creates a register of user
  * @route POST /api/v1/users/createuser
@@ -44,7 +52,7 @@ const getOneUser = async (req, res) => {
  * @param {Request} req - Request of the api.
  * @param {Response} res - Response of the api.
  */
-const createUser = async (req, res) => {
+const createUser = asyncHandler(async (req, res) => {
   const payload = req.body
   const user = await User.create({
     first_name: payload.first_name,
@@ -53,13 +61,15 @@ const createUser = async (req, res) => {
     phone: payload.phone,
     password: payload.password,
     status: payload.status,
+    created_by: 1,
+    updated_by: 1
   })
   return res.status(200).json({
     success: true,
-    message: "User created successfuly.",
+    message: "User created successfully.",
     data: user,
   })
-}
+})
 /**
  * @description updates a register of user
  * @route PUT /api/v1/users/updateuser
@@ -68,12 +78,12 @@ const createUser = async (req, res) => {
  * @param {Request} req - Request of the api.
  * @param {Response} res - Response of the api.
  */
-const updateUser = async (req, res) => {
+const updateUser = asyncHandler(async (req, res) => {
 
   const payload = req.body
 
-  const user = UserService.updateUser({
-		id: payload.id,
+  const user = await UserService.updateUser({
+		id: req.params.id,
 		first_name: payload.first_name,
 		last_name: payload.last_name,
 		email: payload.email,
@@ -83,41 +93,23 @@ const updateUser = async (req, res) => {
 	})
 
   if (!user) {
-    return res.status(404).json({ msg: "user not found" })
+    return res.status(404).json({
+      success: true,
+      message: "User not found.",
+    })
   }
-  await user.update({
-    name,
-    email,
-    phone,
-    password,
-  })
-  return res.status(200).json(user)
-}
-/**
- * @description Elimina la instancia de un usuario de manera lógica
- * @route DELETE /api/v1/user/:id
- * @author Carlos Ramirez <charlydeveloping@gmail.com>
- * @version 1.0.0
- * @param {Request} req - Request of the api.
- * @param {Response} res - Response of the api.
- */
-const deleteUser = async (req, res) => {
-  const id = req.params.id
 
-  if (!user) {
-    return res.status(404).json({ msg: "user not found" })
-  }
-  await user.destroy()
-  await user.update({
-    deleted_by: req.user.id,
+  return res.status(200).json({
+    success: true,
+    message: "User updated successfully.",
+    data: user,
   })
-  return res.status(204).send({})
-}
+})
+
 
 module.exports = {
   getAllUsers,
   getOneUser,
   createUser,
   updateUser,
-  deleteUser,
 }

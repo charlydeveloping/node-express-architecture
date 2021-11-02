@@ -16,7 +16,7 @@ module.exports = class UserService {
    * @param {Number} id - identifier of the user.
    */
   static async getOneUser(id) {
-    return await User.finOne({ where: { id } })
+    return await User.findOne({ where: { id } })
   }
   /**
    * @description creates a register of user
@@ -33,6 +33,8 @@ module.exports = class UserService {
         phone: user.phone,
         password: user.password,
         status: user.status,
+        created_by: user.created_by,
+        updated_by: user.updated_by
       })
     } catch (error) {
       throw error
@@ -50,7 +52,7 @@ module.exports = class UserService {
 
       if (!userInstance) return null
 
-      return user.update({
+      return userInstance.update({
         first_name: user.first_name,
         last_name: user.last_name,
         email: user.email,
@@ -67,23 +69,18 @@ module.exports = class UserService {
    * @description deletes a register of user by logic delete
    * @author Carlos Ramirez <cramirez@miteleferico.bo>
    * @version 1.0.0
-   * @param {Number} id - identifier of the user.
+   * @param {Number} id - identifier of the user to be deleted.
+   * @param {deletedBy} id - identifier of the user who deletes.
    */
-   static async deleteUser(id, fkUser) {
+   static async deleteUser(id, deletedBy) {
     try {
-      const userInstance = await this.getOneUser(user.id)
+      const userInstance = await this.getOneUser(id)
 
       if (!userInstance) return null
 
-      await user.destroy()
-
-      await user.update({
-        deleted_by: fkUser,
-      })
+      return await userInstance.destroy()
     } catch (error) {
       throw error
     }
   }
-
-
 }

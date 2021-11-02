@@ -10,6 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       uuid: {
+        allowNull: false,
         type: Sequelize.UUID,
         defaultValue: sequelize.UUIDV4
       },
@@ -35,6 +36,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       status: {
+        allowNull: false,
         type: Sequelize.STRING(1)
       },
       last_login_at: {
@@ -43,14 +45,22 @@ module.exports = {
       last_ip_address: {
         type: Sequelize.STRING
       },
+      created_by: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
+      updated_by: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       updated_at: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

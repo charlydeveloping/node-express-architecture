@@ -1,4 +1,6 @@
-const express = require('express');
+const express = require('express')
+const errorHandler = require('./helpers/error-handler')
+
 
 class Server {
   constructor() {
@@ -8,13 +10,20 @@ class Server {
       auth: '/api/v1/auth',
       users: '/api/v1/users'
     }
+    this.middlewares()
     this.routes()
+    this.app.use(errorHandler)
 
   }
 
   routes() {
     this.app.use(this.paths.auth, require('./api/routes/auth.routes'))
     this.app.use(this.paths.users, require('./api/routes/users.routes'))
+  }
+
+  middlewares() {
+    // Lectura y parseo del body
+    this.app.use(express.json());
   }
 
   listen() {
