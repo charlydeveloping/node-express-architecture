@@ -39,28 +39,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(1)
       },
-      last_login_at: {
-        type: Sequelize.DATE
-      },
-      last_ip_address: {
-        type: Sequelize.STRING
-      },
-      created_by: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updated_by: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      updated_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
+      
     });
   },
   down: async (queryInterface, Sequelize) => {

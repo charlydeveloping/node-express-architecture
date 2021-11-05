@@ -44,21 +44,8 @@ module.exports = (sequelize, DataTypes) => {
                 isIn: [['a', 'i']]
             }
         },
-        last_login_at: {
-            type: DataTypes.DATE,
-        },
-        last_ip_address: {
-            type: DataTypes.STRING,
-            validate: {
-                isIP: true
-            }
-        },
-        created_by: DataTypes.INTEGER,
-        updated_by: DataTypes.INTEGER,
     }, {
-        timestamps: true,
-        createdAt: 'created_at',
-        updatedAt: 'updated_at',
+        timestamps: false,
         tableName: 'users',
         defaultScope: {
             attributes: {

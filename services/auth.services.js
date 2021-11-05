@@ -16,24 +16,14 @@ class AuthService {
     try {
      const user = this.getUserWithPassword(email)
 
-      // Si el usuario está activo
-      if (!user.is_active) {
-        // throw new ErrorResponse(1201)
-      }
-
       // Verificar la contraseña
       const validPassword = bcryptjs.compareSync(password, user.password);
       if (!validPassword) {
         // throw new ErrorResponse(1201)
       }
-
-      //obtener perfil
-      const profile = await Profile.findOne({
-        where: { id: user.fk_profile },
-      });
-
       // Generar el JWT
       const token = await generarJWT(user.id);
+      return token
     } catch (error) {}
   }
 
