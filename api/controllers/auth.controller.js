@@ -1,14 +1,25 @@
-const AuthService = require("../../services/auth.services")
+const AuthService = require('../../services/auth.services')
+const UserService = require('../../services/user.services')
+const asyncHandler = require('../middlewares/async')
 
-const login = async (req, res) => {
+const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body
 
   const token = await AuthService.login(email, password)
-  res.send(200).json({
+  res.status(200).json({
     token
   })
-}
+})
+
+const me = asyncHandler(async (req, res) => {
+  const { uuid } = req.user
+  const user = await UserService.getOneUserByUUID(uuid)
+  res.status(200).json({
+    user
+  })
+})
 
 module.exports = {
-  login
+  login,
+  me
 }

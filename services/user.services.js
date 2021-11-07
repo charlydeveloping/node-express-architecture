@@ -18,6 +18,17 @@ module.exports = class UserService {
   static async getOneUser(id) {
     return await User.findOne({ where: { id } })
   }
+
+  /**
+   * @description gets one user by its uuid
+   * @author Carlos Ramirez <cramirez@miteleferico.bo>
+   * @version 1.0.0
+   * @param {String} uuid - identifier of the user.
+   */
+   static async getOneUserByUUID(uuid) {
+    return await User.findOne({ where: { uuid } })
+  }
+
   /**
    * @description creates a register of user
    * @author Carlos Ramirez <cramirez@miteleferico.bo>

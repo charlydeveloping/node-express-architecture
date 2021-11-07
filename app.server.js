@@ -1,6 +1,6 @@
 const express = require('express')
 const errorHandler = require('./helpers/error-handler')
-
+const cors = require('cors')
 
 class Server {
   constructor() {
@@ -23,7 +23,9 @@ class Server {
 
   middlewares() {
     // Lectura y parseo del body
-    this.app.use(express.json());
+    this.app.use(express.json())
+
+    this.app.use(cors())
   }
 
   listen() {

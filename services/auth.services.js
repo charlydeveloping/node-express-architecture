@@ -1,20 +1,12 @@
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken")
+const bcryptjs = require('bcryptjs')
+const User = require('../models').user
 
 class AuthService {
 
-	static async getUserWithPassword(email) {
-		const user = await User.scope("withPassword").findOne({
-			where: { email },
-		});
-		if (!user) {
-			return null
-		}
-		return user
-	}
-
   static async login(email, password) {
     try {
-     const user = this.getUserWithPassword(email)
+     const user = await this.getUserWithPassword(email)
 
       // Verificar la contraseña
       const validPassword = bcryptjs.compareSync(password, user.password);
@@ -22,19 +14,34 @@ class AuthService {
         // throw new ErrorResponse(1201)
       }
       // Generar el JWT
-      const token = await generarJWT(user.id);
+      const token = await this.generateJWT({
+        user: user.uuid
+      })
+
       return token
-    } catch (error) {}
+    } catch (error) {
+      throw error
+    }
   }
 
-  static async generateJWT(user) {
+  static async getUserWithPassword(email) {
+		const user = await User.scope("withPassword").findOne({
+			where: { email },
+		})
+		if (!user) {
+			return null
+		}
+		return user
+	}
+
+  static async generateJWT(payload) {
     try {
-      const token = await jwt.sign(user, process.env.SECRETORPRIVATEKEY, {
+      const token = await jwt.sign(payload, process.env.SECRETORPRIVATEKEY, {
         expiresIn: "4h",
-      });
-      return token;
+      })
+      return token
     } catch (error) {
-      console.log(error);
+      console.log(error)
       return "No se pudo generar el token";
     }
   }
