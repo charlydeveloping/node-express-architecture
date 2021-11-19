@@ -3,7 +3,7 @@ const { sequelize } = require("../models");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("users", {
+    await queryInterface.createTable("menus", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,34 +16,29 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: sequelize.UUIDV4,
       },
-      first_name: {
-        allowNull: false,
-        type: Sequelize.STRING(30),
+      fk_menu: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: "menus",
+          },
+          key: "id",
+        },
       },
-      last_name: {
-        allowNull: false,
-        type: Sequelize.STRING(30),
-      },
-      email: {
-        allowNull: false,
-        unique: true,
-        type: Sequelize.STRING(50),
-      },
-      phone: {
-        type: Sequelize.STRING(15),
-        unique: true,
-      },
-      password: {
+      name: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      status: {
+      icon: {
         allowNull: false,
-        type: Sequelize.STRING(1),
+        type: Sequelize.STRING,
+      },
+      to: {
+        type: Sequelize.STRING,
       },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("users");
+    await queryInterface.dropTable("menus");
   },
 };

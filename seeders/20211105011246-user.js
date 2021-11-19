@@ -1,7 +1,7 @@
 "use strict";
 
-const bcrypt = require('bcrypt')
-const { v4: uuidv4 } = require('uuid')
+const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -13,9 +13,9 @@ module.exports = {
         email: "charlydeveloping@gmail.com",
         phone: "75800000",
         password: await bcrypt.hash("password", 10),
-        status: 'a',
+        status: "a",
       },
-    ])
+    ]);
   },
 
   down: async (queryInterface, Sequelize) => {
